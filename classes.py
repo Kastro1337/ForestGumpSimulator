@@ -1,18 +1,19 @@
 #class file
-
 import pygame
+from CONST import *
 
-WINDOW_H = 640
-WINDOW_W = 800
 
 pygame.init()
-class playerClass():
-    def __init__(self):
+class playerClass(pygame.Rect):
+    def __init__(self, isEnemy):
         self.x = WINDOW_W / 2
-        self.y = WINDOW_H - (WINDOW_H/8)
+        if isEnemy:
+            self.y = WINDOW_H/10
+        else:
+            self.y = WINDOW_H - (WINDOW_H/8)
         self.width = 80
         self.height = 20
-        self.velocity = 7
+        self.velocity = playerSpeed
         self.color = (255, 0, 0)
 
     def move(self, keys):
@@ -37,17 +38,28 @@ class playerClass():
 
 
 
-class ballClass():
+class ballClass(pygame.Rect):
     def __init__(self):
-        self.x = 50
-        self.y = 50
-        self.center = (self.x, self.y)
-        self.radius = 6
+        self.x = WINDOW_W / 2
+        self.y = WINDOW_H / 4
+        self.lado = 5
+        self.width, self.height = self.lado, self.lado # not necessary, just use lado
+        self.velocity = ballSpeed
         self.color = (255,255,255)
-        self.velocity = 1
+
+
+    def basic(self):
+        return (self.x, self.y, self.width, self.height)
+
+
 
     def move(self):
         self.y += self.velocity
-        self.center = (self.x, self.y)
-        print(self.y)
-        #TODO: move diagonaly
+        #TODO: Beco diagonal
+
+
+    def changeDir(self):
+        self.velocity = -self.velocity
+
+
+        print("changed")
